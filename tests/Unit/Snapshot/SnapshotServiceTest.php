@@ -103,7 +103,7 @@ class SnapshotServiceTest extends TestCase
         $result = $this->poll();
 
         $this->assertSame(['fast', 'slow', 'today'], $this->computer->computedTiers(), 'every stale tier, one gate slot');
-        $this->assertSame(['activeNow' => 7, 'partial' => false], $result->payload['fast']);
+        $this->assertSame(['activeNow' => 7, 'partial' => false, 'ms' => 10], $result->payload['fast']);
         $this->assertSame(['fast' => 0, 'slow' => 0, 'today' => 0], $result->ages);
         $stored = $this->store->readAll(1, 0)['snapshots']['fast'];
         $this->assertSame(self::NOW, $stored->computedAt);
@@ -325,6 +325,19 @@ class SnapshotServiceTest extends TestCase
         $this->assertNull($result->ages['fast']);
     }
 
+    public function test_aComputedTier_keepsHowLongItTook(): void
+    {
+        // shown on the board when the technical info is on (Peter, 2026-11-19)
+        $this->computer->seconds['fast'] = 0.0484;
+        $this->computer->seconds['slow'] = 0.8456;
+
+        $result = $this->poll();
+
+        $this->assertSame(48, $result->payload['fast']['ms']);
+        $this->assertSame(846, $result->payload['slow']['ms']);
+        $this->assertSame(846, $this->store->readAll(1, 0)['snapshots']['slow']->payload['ms'], 'stored with the snapshot');
+    }
+
     public function test_partialResult_keepsMissingKeys(): void
     {
         $this->put(Tier::Fast, 20, ['activeNow' => 3, 'visits5' => 9, 'partial' => false]);
@@ -332,7 +345,7 @@ class SnapshotServiceTest extends TestCase
 
         $result = $this->poll();
 
-        $this->assertSame(['activeNow' => 7, 'visits5' => 9, 'partial' => true], $result->payload['fast']);
+        $this->assertSame(['activeNow' => 7, 'visits5' => 9, 'partial' => true, 'ms' => 10], $result->payload['fast']);
     }
 
     public function test_completeResult_replacesThePayload(): void
@@ -343,7 +356,7 @@ class SnapshotServiceTest extends TestCase
 
         $result = $this->poll();
 
-        $this->assertSame(['activeNow' => 4, 'partial' => false], $result->payload['fast']);
+        $this->assertSame(['activeNow' => 4, 'partial' => false, 'ms' => 10], $result->payload['fast']);
     }
 
     public function test_completeResult_clearsAnEarlierPartialFlag(): void

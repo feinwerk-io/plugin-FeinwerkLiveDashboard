@@ -26,7 +26,7 @@ on your database small while many people watch.
   database CPU core.
 - **Respects your privacy settings:** the latest visits follow Matomo's visits log and data rounding settings, and the
   board never shows IP addresses, visitor IDs or the city of a single visit.
-- **Light and dark mode, English and German.**
+- **Light and dark mode, in English, German, French, Spanish and Italian.**
 
 **Works with Feinwerk Dashboard Sharing (free):** put the live widgets on a dashboard and share it with your team.
 
@@ -63,6 +63,11 @@ settings: it is not shown when the visits log is switched off for the website or
 rounds report numbers for privacy. The map shows a city only when it has at least 3 visits in the time window.
 
 ### Options for administrators
+
+In Matomo's **Administration › System › General settings**, section **Feinwerk Live Dashboard**: **Show calculation
+time and sampling** (on by default) adds a small note after the status of the live dashboard and its widgets, for
+example "5 ms, lists 12 ms · no sample": how long the last calculation of the newest numbers and of the lists took, and
+whether the lists are estimated from a sample.
 
 Optional, in `config/config.ini.php`:
 
@@ -125,6 +130,24 @@ feedback = 0
 ```
 
 **Support** next to it opens the [Feinwerk contact form](https://feinwerk.io/en/contact?service=plugins).
+
+## Installing the Feinwerk Connector
+
+The free Feinwerk Connector installs, updates and licenses Feinwerk plugins inside Matomo. The easiest way to get it is
+the Matomo Marketplace. While it is not active, super users also find a section "Feinwerk Plugins" in Matomo's
+Administration with the entry "Install Feinwerk Connector" ("Activate Feinwerk Connector" when its files are already
+there). One click installs it from the Matomo Marketplace and activates it; as with every plugin install, Matomo first
+asks for your password. Where Matomo cannot install from its Marketplace (Marketplace, internet features or plugin
+administration switched off), the page explains the manual way instead. In Matomo for WordPress the connector is
+installed as a WordPress plugin through Matomo Analytics, Marketplace. The connector needs PHP 8.1. Nothing is
+downloaded before you click. To hide the entry, add to `config/config.ini.php`:
+
+```ini
+[FeinwerkLiveDashboard]
+connector_installer = 0
+```
+
+The same line in the section `[FeinwerkMarketplaceConnector]` hides it for all Feinwerk plugins.
 
 ## Tips from Feinwerk
 

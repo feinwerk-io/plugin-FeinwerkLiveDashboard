@@ -1,7 +1,7 @@
 {
     "name": "FeinwerkLiveDashboard",
     "description": "See what happens on your website right now: live pages, top lists, campaigns, goals and a live map in one dashboard, fast even on busy sites.",
-    "version": "5.0.1",
+    "version": "5.1.0",
     "theme": false,
     "require": {
         "matomo": ">=5.0.0,<7.0.0-b1",

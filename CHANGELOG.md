@@ -1,5 +1,17 @@
 # Changelog
 
+## 5.1.0
+
+- In French, Spanish and Italian too, besides English and German.
+- The key numbers stand in cards, like those of Matomo's Visits Overview; "Visitors active now" is centred next to the
+  bar chart.
+- A small note after the status shows how long the last calculation took and whether the lists use a sample; it can be
+  switched off in Matomo's General settings, section Feinwerk Live Dashboard.
+- For super users while the Feinwerk Connector is not active: Administration, Feinwerk Plugins, "Install Feinwerk
+  Connector" installs it from the Matomo Marketplace and activates it with one click (after Matomo's password check);
+  where Matomo cannot install by itself, the page explains the manual way. `connector_installer = 0` in
+  `[FeinwerkLiveDashboard]` hides the entry.
+
 ## 5.0.1
 
 - New screenshots for the Matomo Marketplace: the whole live dashboard on one page and every widget in its full width.

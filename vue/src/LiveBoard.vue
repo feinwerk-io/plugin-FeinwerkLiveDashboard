@@ -22,6 +22,9 @@
       <p class="fwld-status" :class="`fwld-status--${status.kind}`" role="status">
         <span class="fwld-status__dot" aria-hidden="true" />
         <span class="fwld-status__text">{{ statusText }}</span>
+        <span v-if="techText" class="fwld-status__tech" :title="tr('TechHelp')">
+          · {{ techText }}
+        </span>
         <button
           v-if="status.kind === 'offline'"
           type="button"
@@ -216,7 +219,7 @@ import { Matomo, translate } from 'CoreHome';
 import {
   Bar, bars, boardStatus, BoardStatus, inWindow, LIST_WINDOWS, PageLabel, pagesNow, readOption,
   retryInSeconds, sparkFor, topPages, writeOption, logSpan, gridColumnCount, barMinutes,
-  scaleMax, Sections, sectionsOf, inWidget, mapSpan, feedbackShown, sparkEnd,
+  scaleMax, Sections, sectionsOf, inWidget, mapSpan, feedbackShown, sparkEnd, techLine,
 } from './board';
 import {
   ageText, durationText, formatMoney, formatNumber, pageLanguage, pathLabel, timeOfDay,
@@ -287,6 +290,8 @@ export default defineComponent({
     worldMap: { type: String, default: '' },
     /** the feedback thumbs (only on the board's own page): enabled, supportUrl, version */
     feedback: { type: Object as PropType<FeedbackSettings | null>, default: null },
+    /** the small technical info after the status (plugin setting, on by default) */
+    techInfo: { type: [Boolean, String], default: false },
   },
   data(): BoardData {
     return {
@@ -380,6 +385,12 @@ export default defineComponent({
     },
     status(): BoardStatus {
       return boardStatus(this.state);
+    },
+    techText(): string {
+      if (!this.techInfo || this.techInfo === '0' || this.status.kind === 'loading' || !this.state.data) {
+        return '';
+      }
+      return techLine(this.fast, this.slow, this.tr);
     },
     statusText(): string {
       const { data } = this.state;

@@ -17,6 +17,7 @@ use Piwik\Plugins\FeinwerkLiveDashboard\Feedback\PluginFeedback;
 use Piwik\Plugins\FeinwerkLiveDashboard\Engine\LimitsProvider;
 use Piwik\Plugins\FeinwerkLiveDashboard\Format\WorldMapFile;
 use Piwik\Plugins\FeinwerkLiveDashboard\Promo\PromoCard;
+use Piwik\Plugins\FeinwerkLiveDashboard\SystemSettings;
 use Piwik\Plugins\FeinwerkLiveDashboard\Promo\PromoLine;
 use Piwik\Site;
 use Piwik\Translation\Translator;
@@ -67,6 +68,7 @@ class GetLiveBoard extends Widget
             'activeMinutes' => LimitsProvider::get()->activeMinutes,
             'cityMinVisits' => LimitsProvider::get()->cityMinVisits,
             'variant' => static::VARIANT,
+            'techInfo' => SystemSettings::techInfoShown(),
             'worldMap' => WorldMapFile::url(PIWIK_INCLUDE_PATH),
             'feedback' => static::VARIANT === 'full' ? self::feedback() : null,
             'promo' => $promotion[PromoCard::LINE],

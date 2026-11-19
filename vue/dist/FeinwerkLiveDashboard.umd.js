@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/FeinwerkLiveDashboard/vue/src/LiveBoard.vue?vue&type=template&id=fba1753c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/FeinwerkLiveDashboard/vue/src/LiveBoard.vue?vue&type=template&id=3ad9a625
 
 const _hoisted_1 = {
   class: "fwld-board__bar"
@@ -155,23 +155,24 @@ const _hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_
 const _hoisted_4 = {
   class: "fwld-status__text"
 };
-const _hoisted_5 = {
+const _hoisted_5 = ["title"];
+const _hoisted_6 = {
   key: 1,
   class: "fwld-board__notice"
 };
-const _hoisted_6 = {
+const _hoisted_7 = {
   key: 2,
   class: "fwld-board__window"
 };
-const _hoisted_7 = {
+const _hoisted_8 = {
   class: "fwld-board__window-label"
 };
-const _hoisted_8 = ["aria-pressed"];
-const _hoisted_9 = {
+const _hoisted_9 = ["aria-pressed"];
+const _hoisted_10 = {
   key: 0,
   class: "fwld-board__warning"
 };
-const _hoisted_10 = {
+const _hoisted_11 = {
   ref: "grid",
   class: "fwld-grid"
 };
@@ -193,12 +194,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("header", _hoisted_1, [_ctx.fullscreen ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", _hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.siteName), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["fwld-status", `fwld-status--${_ctx.status.kind}`]),
     role: "status"
-  }, [_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusText), 1), _ctx.status.kind === 'offline' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+  }, [_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.statusText), 1), _ctx.techText ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
+    class: "fwld-status__tech",
+    title: _ctx.tr('TechHelp')
+  }, " · " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.techText), 9, _hoisted_5)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.status.kind === 'offline' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+    key: 1,
     type: "button",
     class: "fwld-status__retry",
     onClick: _cache[0] || (_cache[0] = (...args) => _ctx.retry && _ctx.retry(...args))
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('Retry')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.status.reduced ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('ReducedDetail')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.show.windowSwitch ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('ListWindow')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SegmentedSwitch, {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('Retry')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.status.reduced ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('ReducedDetail')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.show.windowSwitch ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_8, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('ListWindow')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SegmentedSwitch, {
     modelValue: _ctx.listWindow,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.listWindow = $event),
     options: _ctx.windowOptions,
@@ -209,7 +214,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fwld-board__fullscreen",
     "aria-pressed": _ctx.fullscreen ? 'true' : 'false',
     onClick: _cache[2] || (_cache[2] = (...args) => _ctx.toggleFullscreen && _ctx.toggleFullscreen(...args))
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.fullscreen ? _ctx.tr('ExitFullScreen') : _ctx.tr('FullScreen')), 9, _hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.status.kind === 'stale' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('Stale')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.show.pulse ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_PulseStrip, {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.fullscreen ? _ctx.tr('ExitFullScreen') : _ctx.tr('FullScreen')), 9, _hoisted_9)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.status.kind === 'stale' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.tr('Stale')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.show.pulse ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_PulseStrip, {
     key: 1,
     "active-now": _ctx.fast.activeNow || 0,
     "active-label": _ctx.tr('ActiveNow'),
@@ -221,7 +226,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "spark-label": _ctx.tr('VisitsPerMinute', _ctx.sparkMinutes),
     "spark-summary": _ctx.sparkSummary,
     kpis: _ctx.kpis
-  }, null, 8, ["active-now", "active-label", "active-help", "bars", "bar-titles", "scale-top", "time-labels", "spark-label", "spark-summary", "kpis"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_10, [_ctx.show.log && _ctx.fast.newestVisits ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_LiveLog, {
+  }, null, 8, ["active-now", "active-label", "active-help", "bars", "bar-titles", "scale-top", "time-labels", "spark-label", "spark-summary", "kpis"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_11, [_ctx.show.log && _ctx.fast.newestVisits ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_LiveLog, {
     key: 0,
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
       gridColumn: _ctx.variant === 'visits' ? '1 / -1' : `span ${_ctx.logColumns}`
@@ -358,7 +363,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     feedback: _ctx.feedback
   }, null, 8, ["id-site", "question", "feedback"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2);
 }
-// CONCATENATED MODULE: ./plugins/FeinwerkLiveDashboard/vue/src/LiveBoard.vue?vue&type=template&id=fba1753c
+// CONCATENATED MODULE: ./plugins/FeinwerkLiveDashboard/vue/src/LiveBoard.vue?vue&type=template&id=3ad9a625
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -582,6 +587,26 @@ function writeOption(storage, name, value) {
   } catch (e) {
     // private windows and blocked storage: the option lasts for this page only
   }
+}
+/**
+ * The small technical info after the status (Peter, 2026-11-19, switchable in the plugin
+ * settings): how long the last calculations of the newest numbers and of the lists took, and
+ * whether the lists are estimated from a sample (the largest factor: 1 of k rows read). '' before
+ * the first timed calculation.
+ */
+function techLine(fast, slow, tr) {
+  if (fast.ms === undefined && slow.ms === undefined) {
+    return '';
+  }
+  let times;
+  if (fast.ms !== undefined && slow.ms !== undefined) {
+    times = tr('TechTimes', fast.ms, slow.ms);
+  } else {
+    var _fast$ms;
+    times = tr('TechTime', (_fast$ms = fast.ms) !== null && _fast$ms !== void 0 ? _fast$ms : slow.ms);
+  }
+  const k = Math.max(1, fast.k || 1, slow.kVisits || 1, slow.kActions || 1);
+  return `${times} · ${k > 1 ? tr('TechSample', k) : tr('TechSampleNone')}`;
 }
 // CONCATENATED MODULE: ./plugins/FeinwerkLiveDashboard/vue/src/format.ts
 /** Matomo's interface language (piwik.language), else the page's lang attribute. */
@@ -1185,7 +1210,7 @@ const LiveMapvue_type_template_id_35f365c8_hoisted_8 = {
 };
 const LiveMapvue_type_template_id_35f365c8_hoisted_9 = ["viewBox", "aria-label"];
 const LiveMapvue_type_template_id_35f365c8_hoisted_10 = ["d"];
-const _hoisted_11 = ["d", "data-iso"];
+const LiveMapvue_type_template_id_35f365c8_hoisted_11 = ["d", "data-iso"];
 const _hoisted_12 = {
   key: 0
 };
@@ -1238,7 +1263,7 @@ function LiveMapvue_type_template_id_35f365c8_render(_ctx, _cache, $props, $setu
       style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])(area.opacity > 0 ? {
         fillOpacity: area.opacity
       } : undefined)
-    }, [area.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("title", _hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(area.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 14, _hoisted_11);
+    }, [area.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("title", _hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(area.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 14, LiveMapvue_type_template_id_35f365c8_hoisted_11);
   }), 128)), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.bubbles, bubble => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("circle", {
       key: bubble.key,
@@ -2902,6 +2927,11 @@ function storage() {
     feedback: {
       type: Object,
       default: null
+    },
+    /** the small technical info after the status (plugin setting, on by default) */
+    techInfo: {
+      type: [Boolean, String],
+      default: false
     }
   },
   data() {
@@ -2998,6 +3028,12 @@ function storage() {
     },
     status() {
       return boardStatus(this.state);
+    },
+    techText() {
+      if (!this.techInfo || this.techInfo === '0' || this.status.kind === 'loading' || !this.state.data) {
+        return '';
+      }
+      return techLine(this.fast, this.slow, this.tr);
     },
     statusText() {
       var _data$lag, _data$generatedAt;

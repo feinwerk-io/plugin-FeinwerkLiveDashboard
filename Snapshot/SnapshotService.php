@@ -155,8 +155,10 @@ final class SnapshotService
             // only a partial result keeps the keys it could not compute; a complete one (also level 3, counters only)
             // replaces the payload, so lists of an earlier run never look current
             $payload = $result->partial ? array_replace($old, $result->payload) : $result->payload;
+            // how long the calculation took, for the board's technical info (Peter, 2026-11-19)
+            $ms = (int) round(($this->clock->microtime() - $start) * 1000);
             $snapshot = new Snapshot(
-                $ctx->idSite, $ctx->viewId, $tier, $ctx->now, $result->dataUntil, array_replace($payload, ['partial' => $result->partial])
+                $ctx->idSite, $ctx->viewId, $tier, $ctx->now, $result->dataUntil, array_replace($payload, ['partial' => $result->partial, 'ms' => $ms])
             );
             $outcome = new RunOutcome($tier, $this->clock->microtime() - $start, false, $result->capHit);
         } catch (QueryTimeout $e) {

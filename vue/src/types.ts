@@ -67,6 +67,8 @@ export interface FastPayload {
   /** only while the website's visits log is on */
   newestVisits?: NewestVisit[];
   k?: number;
+  /** how long the last calculation took (ms) */
+  ms?: number;
   partial?: boolean;
 }
 
@@ -110,6 +112,8 @@ export interface SlowPayload {
   goals?: ByWindow<GoalRow[]>;
   kVisits?: number;
   kActions?: number;
+  /** how long the last calculation took (ms) */
+  ms?: number;
   partial?: boolean;
 }
 

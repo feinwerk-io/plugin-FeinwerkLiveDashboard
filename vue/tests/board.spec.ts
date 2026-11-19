@@ -7,7 +7,7 @@
 import {
   bars, boardStatus, inWindow, LIST_WINDOWS, readOption, retryInSeconds, sparkFor, topPages, pagesNow,
   barMinutes, feedbackShown, gridColumnCount, inWidget, logNarrow, logSpan, mapSpan, markColumns,
-  scaleMax, sectionsOf, sparkEnd,
+  scaleMax, sectionsOf, sparkEnd, techLine,
   visitAge, writeOption,
 } from '../src/board';
 import { PollerState } from '../src/poller';
@@ -252,5 +252,24 @@ describe('feedback and spark labels', () => {
     const behind = { ...data, payload: { ...data.payload, slow: { ...data.payload.slow, end: 900 } } };
     expect(sparkEnd(behind)).toBe(900);
     expect(sparkEnd(null)).toBe(0);
+  });
+});
+
+describe('technical info', () => {
+  const tr = (key: string, ...args: (string | number)[]) => `${key}(${args.join(',')})`;
+
+  it('names the calculation times and says when no sample is used', () => {
+    expect(techLine({ ms: 48, k: 1 }, { ms: 845, kVisits: 1, kActions: 1 }, tr))
+      .toBe('TechTimes(48,845) · TechSampleNone()');
+  });
+
+  it('names the largest sampling factor', () => {
+    expect(techLine({ ms: 120, k: 1 }, { ms: 910, kVisits: 2, kActions: 4 }, tr))
+      .toBe('TechTimes(120,910) · TechSample(4)');
+  });
+
+  it('is empty before the first calculation was timed', () => {
+    expect(techLine({}, {}, tr)).toBe('');
+    expect(techLine({ ms: 48 }, {}, tr)).toBe('TechTime(48) · TechSampleNone()');
   });
 });

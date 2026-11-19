@@ -12,6 +12,7 @@ namespace Piwik\Plugins\FeinwerkLiveDashboard\tests\Integration;
 use Piwik\Category\CategoryList;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
+use Piwik\Plugins\FeinwerkLiveDashboard\SystemSettings;
 use Piwik\Plugins\FeinwerkLiveDashboard\Widgets\GetLiveBoard;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
@@ -85,6 +86,18 @@ class WidgetTest extends IntegrationTestCase
         $this->assertStringContainsString('currency-symbol="€"', html_entity_decode($html, ENT_QUOTES | ENT_HTML5));
         $this->assertSame(1, preg_match('/active-minutes="3"/', $html));
         $this->assertStringNotContainsString('<Co>', $html, 'the site name is escaped');
+    }
+
+    public function test_techInfo_followsThePluginSetting(): void
+    {
+        $this->assertStringContainsString('tech-info="1"', (new GetLiveBoard())->render(), 'on by default');
+
+        $settings = new SystemSettings();
+        $settings->showTechInfo->setValue(false);
+        $settings->save();
+        FakeAccess::clearAccess(false, [], [1], 'viewer');
+
+        $this->assertStringNotContainsString('tech-info', (new GetLiveBoard())->render());
     }
 
     /**

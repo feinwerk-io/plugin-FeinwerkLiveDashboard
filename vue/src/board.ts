@@ -273,3 +273,35 @@ export function writeOption(storage: OptionStorage, name: string, value: string)
     // private windows and blocked storage: the option lasts for this page only
   }
 }
+
+/** What techLine() reads of the fast and slow tiers. */
+export interface TechSource {
+  ms?: number;
+  k?: number;
+  kVisits?: number;
+  kActions?: number;
+}
+
+/**
+ * The small technical info after the status (Peter, 2026-11-19, switchable in the plugin
+ * settings): how long the last calculations of the newest numbers and of the lists took, and
+ * whether the lists are estimated from a sample (the largest factor: 1 of k rows read). '' before
+ * the first timed calculation.
+ */
+export function techLine(
+  fast: TechSource,
+  slow: TechSource,
+  tr: (key: string, ...args: (string | number)[]) => string,
+): string {
+  if (fast.ms === undefined && slow.ms === undefined) {
+    return '';
+  }
+  let times: string;
+  if (fast.ms !== undefined && slow.ms !== undefined) {
+    times = tr('TechTimes', fast.ms, slow.ms);
+  } else {
+    times = tr('TechTime', (fast.ms ?? slow.ms) as number);
+  }
+  const k = Math.max(1, fast.k || 1, slow.kVisits || 1, slow.kActions || 1);
+  return `${times} · ${k > 1 ? tr('TechSample', k) : tr('TechSampleNone')}`;
+}
