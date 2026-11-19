@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1
+
+- New screenshots for the Matomo Marketplace: the whole live dashboard on one page and every widget in its full width.
+
 ## 5.0.0
 
 First stable version, for Matomo 5 and Matomo 6.
