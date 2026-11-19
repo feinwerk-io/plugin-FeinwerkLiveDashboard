@@ -1,0 +1,18 @@
+{# The kit's card in a dashboard widget, single-card form (Page Filter Report docs/footer.md "The card in dashboard
+   widgets"; Peter, 2026-11-19: the card in the dashboard widgets). promoCard = Promo/PromoCard::fromLine(): the tip
+   line's message of the day, its title as the bold name, its sentence and its link; the id ends in -card, so card and
+   line hide independently. Hidden until javascripts/promocard.js has checked the 30 days and the one card per page; its
+   x hides only the card. The sentence keeps to two lines, the rest is in its title. A link inside Matomo (the connector
+   in the instance's own Marketplace) opens in the same tab ("?? true": Twig's default filter would replace false); the
+   admin note of the connector message is the link's title. The mark is the kit's card mark, inline (no ids, the card
+   can be on the page five times); no Feinwerk logo in the card. #}
+<div class="fwpromo-card" data-fwpromo-id="{{ promoCard.id }}" data-fwpromo-days="{{ promoCard.days }}"{% if promoCard.demo ?? false %} data-fwpromo-demo="1"{% endif %}>
+    <span class="fwpromo-card__mark"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="#0e3b3a"/><g fill="#9fd8d2"><circle cx="16" cy="8.6" r="2.5"/><circle cx="8.6" cy="16" r="2.5"/><circle cx="23.4" cy="16" r="2.5"/><circle cx="16" cy="23.4" r="2.5"/></g><circle cx="16" cy="16" r="4.3" fill="#8ee6c8"/></svg></span>
+    <span class="fwpromo-card__body">
+        <strong>{{ promoCard.name }}</strong>
+        <span title="{{ promoCard.text }}">{{ promoCard.text }}</span>
+    </span>
+    <a class="fwpromo-card__link" href="{{ promoCard.url }}"{% if promoCard.external ?? true %} target="_blank" rel="noopener"{% endif %}{% if promoCard.title ?? '' %} title="{{ promoCard.title }}"{% endif %}>{{ promoCard.link }}</a>
+    <button type="button" class="fwpromo-card__close" title="{{ 'FeinwerkLiveDashboard_PromoDismiss'|translate }}"
+            aria-label="{{ 'FeinwerkLiveDashboard_PromoDismiss'|translate }}"><span aria-hidden="true">&times;</span></button>
+</div>

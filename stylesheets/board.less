@@ -1,0 +1,784 @@
+// Feinwerk Live Dashboard: the board. The plugin runs on Matomo 5.0 and newer: no Matomo LESS variables or mixins
+// (5.0 to 5.11 lack them, a LESS error puts Matomo into safe mode), only CSS custom properties with the light values as
+// fallbacks, and a local dark block for the status colours that have no theme variable.
+
+.fwld-board {
+  --fwld-text: var(--theme-color-text, #212121);
+  --fwld-text-light: var(--theme-color-text-light, #444);
+  --fwld-text-lighter: var(--theme-color-text-lighter, #646464);
+  --fwld-surface: var(--theme-color-background-contrast, #fff);
+  --fwld-track: var(--theme-color-background-tinyContrast, #f2f2f2);
+  --fwld-border: var(--theme-color-border, #ccc);
+  --fwld-bar: var(--theme-color-link, #1976d2);
+  --fwld-focus: var(--theme-color-focus-ring, #0969da);
+  --fwld-live: #2e7d32;
+  --fwld-late: #a15c00;
+  --fwld-bad: #c62828;
+
+  color: var(--fwld-text);
+  font-variant-numeric: tabular-nums;
+}
+
+[data-theme-mode="dark"] .fwld-board {
+  --fwld-live: #66bb6a;
+  --fwld-late: #ffb74d;
+  --fwld-bad: #ef9a9a;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme-mode="auto"] .fwld-board {
+    --fwld-live: #66bb6a;
+    --fwld-late: #ffb74d;
+    --fwld-bad: #ef9a9a;
+  }
+}
+
+.fwld-board--fullscreen {
+  overflow: auto;
+  padding: 24px 32px;
+  background: var(--theme-color-background-base, #eff0f1);
+}
+
+.fwld-board__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 0 0 12px;
+}
+
+.fwld-board__site {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.fwld-board__notice {
+  margin: 0;
+  color: var(--fwld-late);
+  font-size: 12px;
+}
+
+.fwld-board__warning {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--fwld-late);
+  background: var(--fwld-track);
+}
+
+.fwld-board button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.fwld-board button:focus-visible {
+  outline: 2px solid var(--fwld-focus);
+  outline-offset: 2px;
+}
+
+.fwld-board__fullscreen,
+.fwld-status__retry {
+  margin-left: auto;
+  padding: 4px 10px;
+  border: 1px solid var(--fwld-border);
+  border-radius: 4px;
+  background: var(--fwld-surface);
+  color: var(--fwld-text-light);
+  font-size: 12px;
+}
+
+.fwld-status__retry {
+  margin-left: 4px;
+}
+
+// status line: a dot that breathes while the data is live
+.fwld-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--fwld-text-light);
+  font-size: 13px;
+}
+
+.fwld-status__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--fwld-text-lighter);
+}
+
+.fwld-status--live .fwld-status__dot {
+  background: var(--fwld-live);
+  animation: fwld-breathe 2.4s ease-in-out infinite;
+}
+
+.fwld-status--delayed .fwld-status__dot,
+.fwld-status--stale .fwld-status__dot {
+  background: var(--fwld-late);
+}
+
+.fwld-status--offline .fwld-status__dot {
+  background: var(--fwld-bad);
+}
+
+@keyframes fwld-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 0 4px rgba(67, 160, 71, 0.25); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fwld-status--live .fwld-status__dot {
+    animation: none;
+  }
+}
+
+// the pulse strip: active now, the minutes of the last half hour, the key numbers
+.fwld-pulse {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr;
+  gap: 4px 28px;
+  align-items: end;
+  padding: 18px 20px 14px;
+  border: 1px solid var(--fwld-border);
+  border-radius: 6px;
+  background: var(--fwld-surface);
+}
+
+.fwld-pulse__now {
+  display: flex;
+  flex-direction: column;
+}
+
+.fwld-pulse__number {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fwld-pulse__label {
+  margin-top: 6px;
+  color: var(--fwld-text-light);
+  font-size: 13px;
+}
+
+.fwld-pulse__spark {
+  margin: 0;
+  min-width: 0;
+}
+
+.fwld-spark__chart {
+  display: flex;
+  gap: 6px;
+}
+
+.fwld-spark__axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 24px;
+  color: var(--fwld-text-lighter);
+  font-size: 11px;
+  line-height: 1;
+  text-align: right;
+}
+
+.fwld-spark {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 64px;
+  border-bottom: 1px solid var(--fwld-border);
+}
+
+.fwld-spark__times {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0 0 30px;
+  color: var(--fwld-text-lighter);
+  font-size: 11px;
+}
+
+.fwld-spark__bar {
+  fill: var(--fwld-bar);
+  opacity: 0.45;
+}
+
+.fwld-spark__bar--current {
+  opacity: 1;
+}
+
+.fwld-pulse__caption {
+  margin-top: 4px;
+  color: var(--fwld-text-lighter);
+  font-size: 12px;
+}
+
+.fwld-kpis {
+  grid-column: ~"1 / -1";
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 32px;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--fwld-track);
+}
+
+.fwld-kpis__item {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.fwld-kpis__label {
+  color: var(--fwld-text-lighter);
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.fwld-kpis__value {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.fwld-kpis__note {
+  order: -1;
+  margin: 0;
+  color: var(--fwld-text-lighter);
+  font-size: 11px;
+}
+
+// panels
+.fwld-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  // the wide panels (live log, map) leave no holes: smaller panels move up into them
+  grid-auto-flow: row dense;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.fwld-panel {
+  min-width: 0;
+  padding: 14px 16px 12px;
+  border: 1px solid var(--fwld-border);
+  border-radius: 6px;
+  background: var(--fwld-surface);
+}
+
+.fwld-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin-bottom: 10px;
+}
+
+.fwld-panel__title {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fwld-panel__window,
+.fwld-panel__note {
+  color: var(--fwld-text-lighter);
+  font-size: 12px;
+}
+
+.fwld-panel__note {
+  color: var(--fwld-late);
+  cursor: help;
+}
+
+.fwld-panel__controls {
+  flex-basis: 100%;
+  min-width: 0;
+}
+
+.fwld-panel__controls:empty {
+  display: none;
+}
+
+.fwld-panel__empty {
+  margin: 8px 0 4px;
+  color: var(--fwld-text-lighter);
+  font-size: 13px;
+}
+
+.fwld-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fwld-list__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 2px 12px;
+  padding: 5px 0 4px;
+  font-size: 13px;
+}
+
+.fwld-list__label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fwld-list__count {
+  font-weight: 600;
+  text-align: right;
+}
+
+// rank change since the last update: arrow and number, coloured, never colour alone
+.fwld-list__rank {
+  font-size: 11px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fwld-list__rank--up {
+  color: var(--fwld-live);
+}
+
+.fwld-list__rank--down {
+  color: var(--fwld-bad);
+}
+
+.fwld-list__rank--new {
+  color: var(--fwld-text-light);
+}
+
+.fwld-list__bar {
+  grid-column: ~"1 / -1";
+  height: 3px;
+  border-radius: 2px;
+  background: var(--fwld-track);
+}
+
+.fwld-list__fill {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--fwld-bar);
+}
+
+.fwld-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+// separate buttons that wrap to a second line in a narrow panel: every label stays whole and readable
+.fwld-switch__option {
+  padding: 2px 9px;
+  border: 1px solid var(--fwld-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--fwld-text-light);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.fwld-switch__option--active {
+  border-color: var(--fwld-text-lighter);
+  background: var(--fwld-track);
+  color: var(--fwld-text);
+  font-weight: 600;
+}
+
+.fwld-goals {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.fwld-goals th,
+.fwld-goals td {
+  padding: 5px 0;
+  border-bottom: 1px solid var(--fwld-track);
+}
+
+.fwld-goals__label {
+  width: 100%;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: normal;
+  text-align: left;
+}
+
+.fwld-goals__count,
+.fwld-goals__money {
+  padding-left: 12px !important;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .fwld-pulse {
+    grid-template-columns: 1fr;
+  }
+}
+
+// label and switch side by side; when they do not fit, the whole switch moves under the label
+// instead of breaking its buttons into two rows
+.fwld-board__window {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.fwld-board__window-label {
+  color: var(--fwld-text-lighter);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+// the live log: up to 3 columns of the grid (the board sets the span); the table scrolls inside it on narrow
+// screens, never the page
+.fwld-log {
+  min-width: 0;
+}
+
+.fwld-log__scroll {
+  // positioned, so it also clips the absolutely positioned column labels for screen readers
+  position: relative;
+  overflow-x: auto;
+}
+
+.fwld-log__table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+}
+
+.fwld-log__col-time {
+  width: 84px;
+}
+
+.fwld-log__col-country {
+  width: 16%;
+}
+
+.fwld-log__col-source {
+  width: 20%;
+}
+
+.fwld-log__col-device {
+  width: 13%;
+}
+
+.fwld-log__col-num {
+  width: 64px;
+}
+
+.fwld-log__col-icon {
+  width: 26px;
+}
+
+.fwld-log__table th {
+  padding: 0 10px 6px 0;
+  color: var(--fwld-text-lighter);
+  font-size: 12px;
+  font-weight: normal;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.fwld-log__table td {
+  padding: 5px 10px 5px 0;
+  border-top: 1px solid var(--fwld-track);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fwld-log__time {
+  color: var(--fwld-text-light);
+}
+
+.fwld-log__table .fwld-log__num {
+  text-align: right;
+}
+
+.fwld-log__table .fwld-log__icon {
+  padding-right: 0;
+  text-align: center;
+}
+
+.fwld-log__icon img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+// the narrow live log (phones, narrow dashboard columns): country and source in one cell on two
+// lines, the icon places in two rows, no device and page; everything fits without scrolling
+.fwld-log--narrow .fwld-log__table {
+  min-width: 0;
+}
+
+.fwld-log--narrow .fwld-log__col-time {
+  width: 72px;
+}
+
+.fwld-log--narrow .fwld-log__col-num {
+  width: 56px;
+}
+
+.fwld-log__line {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fwld-log__sub {
+  color: var(--fwld-text-light);
+  font-size: 12px;
+}
+
+.fwld-log__table .fwld-log__marks {
+  padding: 5px 0 5px 4px;
+}
+
+.fwld-log__slots {
+  display: inline-grid;
+  grid-template-rows: repeat(2, 16px);
+  grid-auto-columns: 16px;
+  grid-auto-flow: column;
+  gap: 2px;
+  vertical-align: middle;
+}
+
+.fwld-log__slot img {
+  display: block;
+}
+
+.fwld-log__hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+// the feedback row (feedback.less) under the panels
+.fwld-board__feedback {
+  margin-top: 16px;
+}
+
+// the live map: Matomo's world map, countries shaded by their visits, cities as bubbles
+.fwld-board {
+  --fwld-land: var(--theme-color-background-tinyContrast, #eceff1);
+  --fwld-city: #d84315;
+}
+
+[data-theme-mode="dark"] .fwld-board {
+  --fwld-city: #ffab91;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme-mode="auto"] .fwld-board {
+    --fwld-city: #ffab91;
+  }
+}
+
+.fwld-map {
+  min-width: 0;
+}
+
+.fwld-map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+}
+
+.fwld-map__svg--world {
+  cursor: pointer;
+}
+
+.fwld-map__heading {
+  margin: 0 0 6px;
+  color: var(--fwld-text-light);
+  font-size: 12px;
+}
+
+// the neighbours of an open country: orientation only
+// pale with white borders: Matomo cuts the neighbours straight at the map's edge, and a drawn edge
+// would show as a frame
+.fwld-map__context {
+  fill: var(--fwld-track);
+  fill-opacity: 0.5;
+  stroke: var(--fwld-surface);
+  stroke-width: 0.5;
+  vector-effect: non-scaling-stroke;
+}
+
+// the open country's regions: a fine grey border sets them apart from the neighbours
+.fwld-map__svg--country .fwld-map__land {
+  stroke: var(--fwld-border);
+}
+
+.fwld-map__label {
+  fill: var(--fwld-text);
+  font-weight: 600;
+  stroke: var(--fwld-surface);
+  paint-order: stroke;
+  pointer-events: none;
+}
+
+.fwld-board .fwld-map__world {
+  padding: 2px 9px;
+  border: 1px solid var(--fwld-border);
+  border-radius: 4px;
+  background: var(--fwld-surface);
+  color: var(--fwld-text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.fwld-board .fwld-map__world:hover {
+  border-color: var(--fwld-bar);
+}
+
+// the countries list opens a country on the map
+.fwld-board .fwld-list__pick {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fwld-board .fwld-list__pick:hover {
+  color: var(--fwld-bar);
+  text-decoration: underline;
+}
+
+.fwld-list__row--selected .fwld-list__label {
+  font-weight: 600;
+}
+
+.fwld-map__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 8px 0 0;
+  color: var(--fwld-text-lighter);
+  font-size: 11px;
+}
+
+.fwld-map__scale {
+  width: 48px;
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--fwld-land), var(--fwld-bar));
+}
+
+.fwld-map__dot {
+  width: 9px;
+  height: 9px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--fwld-city);
+}
+
+
+.fwld-map__land {
+  fill: var(--fwld-land);
+  stroke: var(--fwld-surface);
+  stroke-width: 0.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.fwld-map__land--visited {
+  fill: var(--fwld-bar);
+}
+
+.fwld-map__city {
+  fill: var(--fwld-city);
+  fill-opacity: 0.75;
+  stroke: var(--fwld-surface);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+// a changed value lights up for a moment (peripheral vision); nothing moves with "reduce motion"
+.fwld-board {
+  --fwld-flash: rgba(25, 118, 210, 0.2);
+}
+
+[data-theme-mode="dark"] .fwld-board {
+  --fwld-flash: rgba(119, 143, 212, 0.32);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme-mode="auto"] .fwld-board {
+    --fwld-flash: rgba(119, 143, 212, 0.32);
+  }
+}
+
+@keyframes fwld-flash {
+  from { background-color: var(--fwld-flash); }
+  to { background-color: transparent; }
+}
+
+.fwld-flash {
+  border-radius: 3px;
+  animation: fwld-flash 1.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fwld-flash {
+    animation: none;
+  }
+}
+
+// inside a widget (dashboard, Widgetize, the widget preview) the widget is the frame: the board keeps
+// a margin to it like Matomo's own widget bodies, the page's outer spacing does not reach in there
+.fwld-board--in-widget {
+  padding: 10px 12px 12px;
+}
+
+.fwld-board--in-widget.fwld-board--fullscreen {
+  padding: 24px 32px;
+}
+
+// the promotion kit's card follows the board in a dashboard widget (templates/board.twig, _promoCard.twig): it keeps the
+// board's inset from the widget frame; the kit's own rules give it only a top margin. Spacing only, so the card still
+// waits for javascripts/promocard.js (it stays hidden without [data-fwpromo-ready]).
+// in a narrow dashboard column the card's link moves under its text instead of squeezing it
+.fwld-board-mount + .fwpromo-card[data-fwpromo-ready] {
+  flex-wrap: wrap;
+  margin: 0 12px 12px;
+}
+
+// Matomo indents every paragraph of a widget (.widget p); the board's lines keep their own alignment
+.widget .fwld-board p {
+  margin-left: 0;
+}
+
+// a dashboard widget: a part of the board, without the page's outer spacing
+.fwld-board--part .fwld-grid {
+  margin-top: 12px;
+}
+
+.fwld-board--part .fwld-board__bar {
+  margin-bottom: 8px;
+}
+
+.fwld-board-mount + .fwpromo-card[data-fwpromo-ready] .fwpromo-card__body {
+  flex: 1 1 160px;
+}

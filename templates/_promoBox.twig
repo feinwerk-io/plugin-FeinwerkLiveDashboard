@@ -1,0 +1,21 @@
+{# Banner on Matomo's admin home and context box on Matomo's report pages, Feinwerk promotion kit (docs/promo-kit.md).
+   promo = PromoLine::variables() {id, placement, title, text, link, url, dismissDays}; hiding for 30 days and once per
+   page in javascripts/promo.js. A context box is a widget of its own: data-fwpromo-widget="hide" lets its x hide that
+   widget too (a box placed inside another widget leaves it out, so only the box goes). The Feinwerk logo closes the last
+   row as a quiet signature (templates/_feinwerkLogo.twig, docs/promotions.md "Feinwerk logo in banners"). #}
+<aside class="fwpromo-box{% if promo.placement == 'adminHome' %} fwpromo-box--banner{% endif %}"
+       data-fwpromo-id="{{ promo.id }}" data-fwpromo-placement="{{ promo.placement }}" data-fwpromo-days="{{ promo.dismissDays }}"{% if promo.demo ?? false %} data-fwpromo-demo="1"{% endif %}
+       {% if promo.placement != 'adminHome' %}data-fwpromo-widget="hide"{% endif %}
+       aria-label="{{ 'FeinwerkLiveDashboard_PromoTip'|translate }}">
+    <div class="fwpromo-box__body">
+        <p class="fwpromo-box__label">{{ 'FeinwerkLiveDashboard_PromoTip'|translate }}</p>
+        <p class="fwpromo-box__title">{{ promo.title }}</p>
+        <p class="fwpromo-box__text">{{ promo.text }}</p>
+        <div class="fwpromo-box__foot">
+            <a class="fwpromo-box__link" href="{{ promo.url }}" target="_blank" rel="noopener">{{ promo.link }}</a>
+            {% include '@FeinwerkLiveDashboard/_feinwerkLogo.twig' %}
+        </div>
+    </div>
+    <button type="button" class="fwpromo-box__dismiss fwpromo-dismiss" title="{{ 'FeinwerkLiveDashboard_PromoDismiss'|translate }}"
+            aria-label="{{ 'FeinwerkLiveDashboard_PromoDismiss'|translate }}"><span aria-hidden="true">&times;</span></button>
+</aside>

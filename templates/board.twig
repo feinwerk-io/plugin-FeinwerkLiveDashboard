@@ -1,0 +1,14 @@
+<div class="fwld-board-mount"
+     vue-entry="FeinwerkLiveDashboard.LiveBoard"
+     id-site="{{ idSite|e('html_attr') }}"
+     site-name="{{ siteName|e('html_attr') }}"
+     currency-symbol="{{ currencySymbol|e('html_attr') }}"
+     active-minutes="{{ activeMinutes|e('html_attr') }}"
+     city-min-visits="{{ cityMinVisits|e('html_attr') }}"
+     variant="{{ variant|e('html_attr') }}"
+     world-map="{{ worldMap|e('html_attr') }}"
+     {% if feedback %}feedback="{{ feedback|json_encode|e('html_attr') }}"{% endif %}></div>
+{# Feinwerk promotion kit (Widgets/GetLiveBoard::promotion()): the tip line under the board's own page, after its
+   feedback row; the card in a dashboard widget. Both only for admins and super users, never in a Widgetize embed. #}
+{% if promo %}{% include '@FeinwerkLiveDashboard/_promo.twig' %}{% endif %}
+{% if promoCard %}{% include '@FeinwerkLiveDashboard/_promoCard.twig' %}{% endif %}

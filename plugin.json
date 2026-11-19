@@ -1,0 +1,35 @@
+{
+    "name": "FeinwerkLiveDashboard",
+    "description": "See what happens on your website right now: live pages, top lists, campaigns, goals and a live map in one dashboard, fast even on busy sites.",
+    "version": "5.0.0",
+    "theme": false,
+    "require": {
+        "matomo": ">=5.0.0,<7.0.0-b1",
+        "php": ">=8.1.0"
+    },
+    "authors": [
+        {
+            "name": "Peter Boehlke, Feinwerk.io",
+            "email": "support@feinwerk.io",
+            "homepage": "https://feinwerk.io"
+        }
+    ],
+    "homepage": "https://plugins.feinwerk.io/en/plugins/FeinwerkLiveDashboard?mtm_campaign=matomo-marketplace&mtm_source=FeinwerkLiveDashboard",
+    "license": "GPL v3+",
+    "category": "insights",
+    "support": {
+        "email": "support@feinwerk.io",
+        "docs": "https://plugins.feinwerk.io/en/docs/plugins/FeinwerkLiveDashboard"
+    },
+    "keywords": [
+        "live",
+        "real-time",
+        "realtime",
+        "dashboard",
+        "visitors",
+        "map",
+        "widgets",
+        "campaigns",
+        "goals"
+    ]
+}
