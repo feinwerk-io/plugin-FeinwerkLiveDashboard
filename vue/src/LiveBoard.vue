@@ -19,31 +19,52 @@
   >
     <header class="fwld-board__bar">
       <h2 v-if="fullscreen" class="fwld-board__site">{{ siteName }}</h2>
-      <p class="fwld-status" :class="`fwld-status--${status.kind}`" role="status">
-        <span class="fwld-status__dot" aria-hidden="true" />
-        <span class="fwld-status__text">{{ statusText }}</span>
-        <span v-if="techText" class="fwld-status__tech" :title="tr('TechHelp')">
-          · {{ techText }}
-        </span>
-        <button
-          v-if="status.kind === 'offline'"
-          type="button"
-          class="fwld-status__retry"
-          @click="retry"
-        >{{ tr('Retry') }}</button>
-      </p>
+      <div class="fwld-board__state">
+        <p class="fwld-status" :class="`fwld-status--${status.kind}`" role="status">
+          <span class="fwld-status__dot" aria-hidden="true" />
+          <span class="fwld-status__text">{{ statusText }}</span>
+          <button
+            v-if="status.kind === 'offline'"
+            type="button"
+            class="fwld-status__retry"
+            @click="retry"
+          >{{ tr('Retry') }}</button>
+        </p>
+        <!-- small, in its own line under the status (Peter, 2026-11-20); a div: Matomo's rules
+             for paragraphs in #content would set its size and spacing -->
+        <div v-if="techText" class="fwld-status__tech" :title="tr('TechHelp')">{{ techText }}</div>
+      </div>
       <p v-if="status.reduced" class="fwld-board__notice">{{ tr('ReducedDetail') }}</p>
       <div v-if="show.windowSwitch" class="fwld-board__window">
         <span class="fwld-board__window-label">{{ tr('ListWindow') }}</span>
         <SegmentedSwitch v-model="listWindow" :options="windowOptions" :label="tr('ListWindow')" />
       </div>
+      <!-- a small icon in the corner (Peter, 2026-11-20: not spelled out, not conspicuous);
+           its name as the tooltip -->
       <button
         v-if="canFullscreen && show.fullscreen"
         type="button"
         class="fwld-board__fullscreen"
         :aria-pressed="fullscreen ? 'true' : 'false'"
+        :aria-label="fullscreen ? tr('ExitFullScreen') : tr('FullScreen')"
+        :title="fullscreen ? tr('ExitFullScreen') : tr('FullScreen')"
         @click="toggleFullscreen"
-      >{{ fullscreen ? tr('ExitFullScreen') : tr('FullScreen') }}</button>
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path v-if="fullscreen" d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" />
+          <path v-else d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+        </svg>
+      </button>
     </header>
 
     <p v-if="status.kind === 'stale'" class="fwld-board__warning">{{ tr('Stale') }}</p>

@@ -1,5 +1,18 @@
 # Changelog
 
+## 5.1.1
+
+- Full screen is now a small icon in the top right corner instead of a button with text.
+- The caption of the bar chart stands centred under the bars.
+- Narrow dashboard columns: the lists, the map and the key numbers stay inside the widget, and in Live: Overview the
+  bar chart moves under the number of visitors active now.
+- The note with the calculation time stands in a very small line of its own right under the status.
+- The time window sits on the right: on the live dashboard page next to the full screen icon, and in the dashboard
+  widgets too.
+- Installing the Feinwerk Connector: where its files are already there but plugin administration is switched off, the
+  page names the command that activates it. The tip about the connector appears only where Matomo can install it with
+  one click.
+
 ## 5.1.0
 
 - In French, Spanish and Italian too, besides English and German.
